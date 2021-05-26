@@ -11,8 +11,6 @@
                     @empty 
                     <li>Aucune category pour l'instant</li>
                     @endforelse
-                @else
-                    <span class="icon-bar">Aucune</span>
                 @endif
             </button>
             <a class="navbar-brand" href="#">{{config('app.name')}}</a>
@@ -26,8 +24,24 @@
                     @empty 
                     <li>Aucun category pour l'instant</li>
                     @endforelse
+                @endif
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                @if(Auth::check())
+                    <li><a href="{{ route('product.index') }}">Dashboard</a></li>
+                    <li>
+                        <a href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">
+                            Logout
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                    </li>
                 @else
-                    <span class="icon-bar">Aucune</span>
+                    <li><a href="{{ route('login') }}">Login</a></li>
                 @endif
             </ul>
         </div>
