@@ -5,7 +5,25 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
-{   
+{
+    protected $fillable = [
+        'title', 'description', 'price', 'sizes', 'visible',
+        'state', 'reference', 'category_id'
+    ];
+
+    /**
+     * Check the value of category id before inserting in database
+     * @param $value
+     */
+    public function setCategoryIdAttribute($value)
+    {
+        if($value == 0){
+            $this->attributes['category_id'] = null;
+        }else{
+            $this->attributes['category_id'] = $value;
+        }
+    }
+
     /**
      * A product has one category. 
      * This function makes this association

@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
+    <p><a href="{{route('product.create')}}"><button type="button" class="btn btn-primary btn-lg">Ajouter un produit</button></a></p>
     {{$products->links()}}
     <table class="table table-striped">
         <thead>

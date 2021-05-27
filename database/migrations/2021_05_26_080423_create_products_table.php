@@ -19,9 +19,9 @@ class CreateProductsTable extends Migration
             $table->text('description')->nullable();
             $table->float('price');
             $table->enum('sizes', ['XS', 'S', 'M', 'L', 'XL']);
-            $table->enum('visible', ['publised', 'not_published']);
+            $table->enum('visible', ['published', 'unpublished']);
             $table->enum('state', ['discount', 'standard']);
-            $table->string('reference', 16);
+            $table->string('reference', 16)->nullable();
             $table->unsignedInteger('category_id')->nullable();
 
             $table->foreign('category_id')->references('id')->on('categories');
