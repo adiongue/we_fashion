@@ -11,7 +11,7 @@
                     <div class="form">
                         <div class="form-group">
                             <label for="title">Titre :</label>
-                            <input type="text" name="title" value="" class="form-control" id="title"
+                            <input type="text" name="title" value="{{old('title', "")}}" class="form-control" id="title"
                                    placeholder="Titre du produit" required>
                             @if($errors->has('title')) <span class="error bg-warning text-warning">{{$errors->first('title')}}</span>@endif
                         </div>
@@ -49,17 +49,17 @@
                         <label for="size">Taille :</label>
                         <select id="size" name="sizes" required>
                             <option value="XS">XS</option>
-                            <option value="XS">S</option>
-                            <option value="XS">M</option>
-                            <option value="XS">L</option>
-                            <option value="XS">XL</option>
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
                         </select>
                         @if($errors->has('sizes')) <span class="error bg-warning text-warning">{{$errors->first('sizes')}}</span> @endif
                     </div>
                     <div class="input-radio">
                         <h2>Status</h2>
-                        <input type="radio" @if(old('status')=='published') checked @endif name="visible" value="published" checked> publier<br>
-                        <input type="radio" @if(old('status')=='unpublished') checked @endif name="visible" value="unpublished" checked> dépublier<br>
+                        <input type="radio" @if(old('visible')=='published') checked @endif name="visible" value="published" checked> publier<br>
+                        <input type="radio" @if(old('visible')=='unpublished') checked @endif name="visible" value="unpublished" checked> dépublier<br>
                     </div>
                     <div class="input-file">
                         <h2>File :</h2>

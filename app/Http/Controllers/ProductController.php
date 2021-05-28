@@ -47,9 +47,23 @@ class ProductController extends Controller
             'sizes' => 'required|in:XS,S,M,L,XL',
             'state' => 'in:discount,standard',
             'visible' => 'in:published,unpublished',
+            'picture' => 'image|max:5000',
         ]);
 
-        Product::create($request->all());
+        $product = Product::create($request->all());
+
+        // save the timage
+        $im = $request->file('picture');
+        if (!empty($im)) {
+            $link = $request->file('picture')->store('images');
+            $timestamp = date_timestamp_get(date_create());
+
+            $title = "{$product->id}{$timestamp}.{$im->extension()}";
+            $product->picture()->create([
+                'link' => $link,
+                'title' => $title,
+            ]);
+        }
 
         $categories = Category::pluck('name', 'id')->all();
         return view('back.product.create', ['categories' => $categories, 'message'=> 'success']);
@@ -75,7 +89,11 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::find($id);
+        $categories = Category::pluck('name', 'id')->all();
+        $sizes = ['XS', 'S', 'M', 'L', 'XL'];
+
+        return view('back.product.edit', compact('product', 'categories', 'sizes'));
     }
 
     /**
@@ -87,7 +105,20 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'description' => 'string',
+            'category_id' => 'integer',
+            'price' => 'required|numeric',
+            'sizes' => 'required|in:XS,S,M,L,XL',
+            'state' => 'in:discount,standard',
+            'visible' => 'in:published,unpublished',
+        ]);
+
+        $product = Product::find($id);
+        $product->update($request->all());
+
+        return redirect()->route('product.index')->with('message', 'success');
     }
 
     /**
@@ -98,6 +129,10 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::find($id);
+
+        $product->delete();
+
+        return redirect()->route('product.index')->with('message', 'success delete');
     }
 }

@@ -22,7 +22,7 @@ class FrontController extends Controller
 
     public function index()
     {
-        $products = Product::paginate($this->paginate);
+        $products = Product::published()->paginate($this->paginate);
         return view('front.index', ['products' => $products]);
     }
 

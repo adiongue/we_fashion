@@ -12,6 +12,17 @@ class Product extends Model
     ];
 
     /**
+     * This method is a scope which modify the standard Eloquent request
+     * It return only published product
+     * @param $query
+     * @return mixed
+     */
+    public function scopePublished($query)
+    {
+        return $query->where('visible', 'published');
+    }
+
+    /**
      * Check the value of category id before inserting in database
      * @param $value
      */
