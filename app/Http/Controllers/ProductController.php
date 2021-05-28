@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Product;
 use Illuminate\Http\Request;
+use Storage;
 
 class ProductController extends Controller
 {
     protected $paginate = 5;
+    private $sizes = ['XS', 'S', 'M', 'L', 'XL'];
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +30,7 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::pluck('name', 'id')->all();
-        return view('back.product.create', ['categories' => $categories]);
+        return view('back.product.create', ['categories' => $categories, 'sizes' => $this->sizes]);
     }
 
     /**
@@ -57,7 +59,6 @@ class ProductController extends Controller
         if (!empty($im)) {
             $link = $request->file('picture')->store('images');
             $timestamp = date_timestamp_get(date_create());
-
             $title = "{$product->id}{$timestamp}.{$im->extension()}";
             $product->picture()->create([
                 'link' => $link,
@@ -66,7 +67,7 @@ class ProductController extends Controller
         }
 
         $categories = Category::pluck('name', 'id')->all();
-        return view('back.product.create', ['categories' => $categories, 'message'=> 'success']);
+        return view('back.product.create', ['categories' => $categories, 'sizes' => $this->sizes, 'message'=> 'success']);
     }
 
     /**
@@ -91,9 +92,8 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         $categories = Category::pluck('name', 'id')->all();
-        $sizes = ['XS', 'S', 'M', 'L', 'XL'];
 
-        return view('back.product.edit', compact('product', 'categories', 'sizes'));
+        return view('back.product.edit', ['product' => $product, 'categories' => $categories, 'sizes' => $this->sizes]);
     }
 
     /**
@@ -113,10 +113,32 @@ class ProductController extends Controller
             'sizes' => 'required|in:XS,S,M,L,XL',
             'state' => 'in:discount,standard',
             'visible' => 'in:published,unpublished',
+            'picture' => 'image|max:5000',
         ]);
 
         $product = Product::find($id);
         $product->update($request->all());
+
+        // image
+        $im = $request->file('picture');
+
+        if (!empty($im)) {
+            $link = $im->store('images');
+            // remove image if it exist
+            if(count($product->picture)>0){
+                // Remove image on storage
+                Storage::disk('local')->delete($product->picture->link);
+                $product->picture()->delete();
+            }
+
+            // update picture table
+            $timestamp = date_timestamp_get(date_create());
+            $title = "{$product->id}{$timestamp}.{$im->extension()}";
+            $product->picture()->create([
+                'link' => $link,
+                'title' => $title,
+            ]);
+        }
 
         return redirect()->route('product.index')->with('message', 'success');
     }

@@ -4,7 +4,7 @@
     @include('back.partial.flash')
     <div class="container">
         <div class="row">
-            <form action="{{route('product.store')}}" method="post">
+            <form action="{{route('product.store')}}" method="post" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="col-md-6">
                     <h1>Créer un produit : </h1>
@@ -17,18 +17,18 @@
                         </div>
                         <div class="form-group">
                             <label for="price">Description :</label>
-                            <textarea type="text" name="description" class="form-control"></textarea>
+                            <textarea type="text" name="description" class="form-control">{{old('description', "")}}</textarea>
                             @if($errors->has('description')) <span class="error bg-warning text-warning">{{$errors->first('description')}}</span> @endif
                         </div>
                         <div class="form-group">
                             <label for="price">Prix :</label>
-                            <input type="number" name="price" value="" class="form-control" id="price"
+                            <input type="number" name="price" value="{{old('price', "")}}" class="form-control" id="price"
                                    placeholder="Prix du produit" step=".01" required>
                             @if($errors->has('price')) <span class="error bg-warning text-warning">{{$errors->first('price')}}</span> @endif
                         </div>
                         <div class="form-group">
                             <label for="reference">Reference :</label>
-                            <input type="text" name="reference" value="" class="form-control" id="reference"
+                            <input type="text" name="reference" value="{{old('reference', "")}}" class="form-control" id="reference"
                                    placeholder="Reference du produit">
                         </div>
                     </div>
@@ -48,11 +48,9 @@
                     <div class="form-select">
                         <label for="size">Taille :</label>
                         <select id="size" name="sizes" required>
-                            <option value="XS">XS</option>
-                            <option value="S">S</option>
-                            <option value="M">M</option>
-                            <option value="L">L</option>
-                            <option value="XL">XL</option>
+                            @foreach($sizes as $size)
+                                <option {{ $size == old('sizes') ? 'selected' : '' }}  value={{$size}}>{{$size}}</option>
+                            @endforeach
                         </select>
                         @if($errors->has('sizes')) <span class="error bg-warning text-warning">{{$errors->first('sizes')}}</span> @endif
                     </div>

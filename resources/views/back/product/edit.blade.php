@@ -4,7 +4,7 @@
     @include('back.partial.flash')
     <div class="container">
         <div class="row">
-            <form action="{{route('product.update', $product->id)}}" method="post">
+            <form action="{{route('product.update', $product->id)}}" method="post" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 {{method_field('PUT')}}
                 <div class="col-md-6">
@@ -65,6 +65,14 @@
                         <input class="file" type="file" name="picture">
                         @if($errors->has('picture')) <span class="error bg-warning text-warning">{{$errors->first('picture')}}</span> @endif
                     </div>
+                    @if($product->picture)
+                        <div class="form-group">
+                            <h2>Image associée :</h2>
+                        </div>
+                        <div class="form-group">
+                            <img width="300" src="{{url('images', $product->picture->link)}}" alt="">
+                        </div>
+                    @endif
                 </div><!-- #end col md 6 -->
             </form>
         </div>

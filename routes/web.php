@@ -22,3 +22,7 @@ Route::resource('admin/product', 'ProductController')->middleware('auth');
 
 
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
