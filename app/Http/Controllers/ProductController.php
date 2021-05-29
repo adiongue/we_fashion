@@ -6,6 +6,7 @@ use App\Category;
 use App\Product;
 use Illuminate\Http\Request;
 use Storage;
+use Illuminate\Support\Facades\Cache;
 
 class ProductController extends Controller
 {
@@ -18,7 +19,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate($this->paginate);
+        $prefix = request()->page?? 'home';
+        $path = 'product' .$prefix;
+
+        $products = Cache::remember($path, 60*24, function(){
+            return Product::paginate($this->paginate);
+        });
         return view('back.product.index', ['products' => $products]);
     }
 

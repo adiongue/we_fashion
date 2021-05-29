@@ -13,8 +13,9 @@
 
 Route::get('/', 'FrontController@index');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('product/{id}', 'FrontController@show')->where(['id' => '[0-9]+'])->name('product');
+Route::get('product/{id}', 'FrontController@show')->where(['id' => '[0-9]+']);
 Route::get('category/{id}', 'FrontController@showProductByCategory')->where(['id' => '[0-9]+'])->name('category');
+Route::get('discount', 'FrontController@showProductByDiscount')->name('discount');
 
 Auth::routes();
 Route::resource('admin/product', 'ProductController')->middleware('auth');

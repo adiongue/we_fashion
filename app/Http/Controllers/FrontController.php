@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Product;
 use App\Category;
+use Illuminate\Support\Facades\Cache;
 
 class FrontController extends Controller
 {
@@ -22,22 +23,30 @@ class FrontController extends Controller
 
     public function index()
     {
-        $products = Product::published()->paginate($this->paginate);
-        return view('front.index', ['products' => $products]);
+        $path = request()->page?? 'home';
+        $products = Cache::remember($path, 60*24, function(){
+            return Product::published()->with('picture')->paginate($this->paginate);
+        });
+        return view('front.products', ['products' => $products]);
     }
 
     public function show(int $id)
     {
         $product = Product::find($id);
-
         return view('front.show', ['product' => $product]);
     }
 
     public function showProductByCategory(int $id) {
          $category = Category::find($id);
-
          $products = $category->products()->paginate($this->paginate);
-
          return view('front.category', ['products' => $products, 'category' => $category]);
+    }
+
+    public function showProductByDiscount() {
+        $path = request()->page?? 'home';
+        $products = Cache::remember($path, 60*24, function(){
+            return Product::published()->where('state', 'discount')->with('picture')->paginate($this->paginate);
+        });
+        return view('front.index', ['products' => $products]);
     }
 }

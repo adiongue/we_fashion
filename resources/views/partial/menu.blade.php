@@ -3,6 +3,7 @@
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
                 <span class="icon-bar"><a href="{{url('/')}}">Accueil</a></span>
+                <span class="icon-bar"><a href="{{url('discount')}}">Solde</a></span>
                 @if (isset($categories))
                     {{ print_r($categories) }}
                     @forelse($categories as $id => $name)
@@ -16,7 +17,8 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="{{url('/')}}">Accueil</a></li>
+                <li><a href="{{url('/')}}">Accueil</a></li>
+                <li><a href="{{url('discount')}}">Solde</a></li>
                 @if (!Route::is('product.*'))
                     @forelse($categories as $id => $name)
                     <li ><a href="{{url('category', $id)}}">{{$name}}</a></li>
