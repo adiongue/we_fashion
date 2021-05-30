@@ -1,7 +1,9 @@
 @extends('layouts.master')
 
 @section('content')
-    <p><a href="{{route('product.create')}}"><button type="button" class="btn btn-primary btn-lg">Ajouter un produit</button></a></p>
+    <p><a href="{{route('product.create')}}">
+            <button type="button" class="btn btn-primary btn-lg">Ajouter un produit</button>
+        </a></p>
     {{$products->links()}}
     <table class="table table-striped">
         <thead>
@@ -33,16 +35,18 @@
                     @endif
                 </td>
                 <td>
-                    <a href="{{route('product.edit', $product->id)}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
+                    <a href="{{route('product.edit', $product->id)}}"><span class="glyphicon glyphicon-edit text-center"
+                                                                            aria-hidden="true"></span></a></td>
                 <td>
                 <td>
-                    <a href="{{route('product.show', $product->id)}}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                    <a href="{{route('product.show', $product->id)}}"><span
+                                class="glyphicon glyphicon-eye-open text-center" aria-hidden="true"></span></a>
                 </td>
                 <td>
                     <form class="delete" method="POST" action="{{route('product.destroy', $product->id)}}">
                         {{ method_field('DELETE') }}
                         {{ csrf_field() }}
-                        <input class="btn btn-danger" type="submit" value="delete" >
+                        <input class="btn btn-danger" type="submit" value="delete">
                     </form>
                 </td>
             </tr>

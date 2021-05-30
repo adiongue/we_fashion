@@ -16,7 +16,8 @@ class Picture extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function product() {
+    public function product()
+    {
         return $this->belongsTo(Picture::class);
     }
 }

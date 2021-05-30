@@ -14,22 +14,28 @@
                             <label for="title">Titre :</label>
                             <input type="text" name="title" value="{{$product->title}}" class="form-control" id="title"
                                    placeholder="Titre du produit" required>
-                            @if($errors->has('title')) <span class="error bg-warning text-warning">{{$errors->first('title')}}</span>@endif
+                            @if($errors->has('title')) <span
+                                    class="error bg-warning text-warning">{{$errors->first('title')}}</span>@endif
                         </div>
                         <div class="form-group">
                             <label for="price">Description :</label>
-                            <textarea type="text" name="description" class="form-control">{{$product->description}}</textarea>
-                            @if($errors->has('description')) <span class="error bg-warning text-warning">{{$errors->first('description')}}</span> @endif
+                            <textarea type="text" name="description"
+                                      class="form-control">{{$product->description}}</textarea>
+                            @if($errors->has('description')) <span
+                                    class="error bg-warning text-warning">{{$errors->first('description')}}</span> @endif
                         </div>
                         <div class="form-group">
                             <label for="price">Prix :</label>
-                            <input type="number" name="price" value="{{$product->price}}" class="form-control" id="price"
+                            <input type="number" name="price" value="{{$product->price}}" class="form-control"
+                                   id="price"
                                    placeholder="Prix du produit" step=".01" required>
-                            @if($errors->has('price')) <span class="error bg-warning text-warning">{{$errors->first('price')}}</span> @endif
+                            @if($errors->has('price')) <span
+                                    class="error bg-warning text-warning">{{$errors->first('price')}}</span> @endif
                         </div>
                         <div class="form-group">
                             <label for="reference">Reference :</label>
-                            <input type="text" name="reference" value="{{$product->reference}}" class="form-control" id="reference"
+                            <input type="text" name="reference" value="{{$product->reference}}" class="form-control"
+                                   id="reference"
                                    placeholder="Reference du produit">
                         </div>
                     </div>
@@ -53,17 +59,22 @@
                                 <option {{ $size == $product->sizes ? 'selected' : '' }}  value={{$size}}>{{$size}}</option>
                             @endforeach
                         </select>
-                        @if($errors->has('sizes')) <span class="error bg-warning text-warnin g">{{$errors->first('sizes')}}</span> @endif
+                        @if($errors->has('sizes')) <span
+                                class="error bg-warning text-warnin g">{{$errors->first('sizes')}}</span> @endif
                     </div>
                     <div class="input-radio">
                         <h2>Status</h2>
-                        <input type="radio" @if(old('status')=='published') checked @endif name="visible" value="published" {{$product->visible == 'published' ? 'checked' : '' }} > publier<br>
-                        <input type="radio" @if(old('status')=='unpublished') checked @endif name="visible" value="unpublished" {{$product->visible == 'unpublished' ? 'checked' : '' }}> dépublier<br>
+                        <input type="radio" @if(old('status')=='published') checked @endif name="visible"
+                               value="published" {{$product->visible == 'published' ? 'checked' : '' }} > publier<br>
+                        <input type="radio" @if(old('status')=='unpublished') checked @endif name="visible"
+                               value="unpublished" {{$product->visible == 'unpublished' ? 'checked' : '' }}>
+                        dépublier<br>
                     </div>
                     <div class="input-file">
                         <h2>File :</h2>
                         <input class="file" type="file" name="picture">
-                        @if($errors->has('picture')) <span class="error bg-warning text-warning">{{$errors->first('picture')}}</span> @endif
+                        @if($errors->has('picture')) <span
+                                class="error bg-warning text-warning">{{$errors->first('picture')}}</span> @endif
                     </div>
                     @if($product->picture)
                         <div class="form-group">

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreatePicturesTable extends Migration
 {
@@ -18,7 +18,7 @@ class CreatePicturesTable extends Migration
             $table->string('link', 100);
             $table->string('title', 100)->nullable();
             $table->unsignedInteger('product_id');
-            
+
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();
         });

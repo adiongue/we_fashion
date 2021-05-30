@@ -7,9 +7,9 @@
                 @if (isset($categories))
                     {{ print_r($categories) }}
                     @forelse($categories as $id => $name)
-                    <span class="icon-bar"><a href="{{url('category', $id)}}">{{$name}}</a></span>
-                    @empty 
-                    <li>Aucune category pour l'instant</li>
+                        <span class="icon-bar"><a href="{{url('category', $id)}}">{{$name}}</a></span>
+                    @empty
+                        <li>Aucune category pour l'instant</li>
                     @endforelse
                 @endif
             </button>
@@ -18,12 +18,12 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li><a href="{{url('/')}}">Accueil</a></li>
-                <li><a href="{{url('discount')}}">Solde</a></li>
                 @if (!Route::is('product.*'))
+                    <li><a href="{{url('discount')}}">Solde</a></li>
                     @forelse($categories as $id => $name)
-                    <li ><a href="{{url('category', $id)}}">{{$name}}</a></li>
-                    @empty 
-                    <li>Aucun category pour l'instant</li>
+                        <li><a href="{{url('category', $id)}}">{{$name}}</a></li>
+                    @empty
+                        <li>Aucun category pour l'instant</li>
                     @endforelse
                 @endif
             </ul>

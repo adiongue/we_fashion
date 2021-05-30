@@ -6,12 +6,12 @@ use App\Category;
 use App\Product;
 use Illuminate\Http\Request;
 use Storage;
-use Illuminate\Support\Facades\Cache;
 
 class ProductController extends Controller
 {
-    protected $paginate = 5;
+    protected $paginate = 10;
     private $sizes = ['XS', 'S', 'M', 'L', 'XL'];
+
     /**
      * Display a listing of the resource.
      *
@@ -19,12 +19,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $prefix = request()->page?? 'home';
-        $path = 'product' .$prefix;
-
-        $products = Cache::remember($path, 60*24, function(){
-            return Product::paginate($this->paginate);
-        });
+        $products = Product::paginate($this->paginate);
         return view('back.product.index', ['products' => $products]);
     }
 
@@ -42,7 +37,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -73,13 +68,13 @@ class ProductController extends Controller
         }
 
         $categories = Category::pluck('name', 'id')->all();
-        return view('back.product.create', ['categories' => $categories, 'sizes' => $this->sizes, 'message'=> 'success']);
+        return view('back.product.create', ['categories' => $categories, 'sizes' => $this->sizes, 'message' => 'success']);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -91,7 +86,7 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -105,8 +100,8 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -131,7 +126,7 @@ class ProductController extends Controller
         if (!empty($im)) {
             $link = $im->store('images');
             // remove image if it exist
-            if(count($product->picture)>0){
+            if (count($product->picture) > 0) {
                 // Remove image on storage
                 Storage::disk('local')->delete($product->picture->link);
                 $product->picture()->delete();
@@ -152,13 +147,12 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $product = Product::find($id);
-
         $product->delete();
 
         return redirect()->route('product.index')->with('message', 'success delete');

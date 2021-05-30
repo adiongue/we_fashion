@@ -16,10 +16,10 @@ class ProductTableSeeder extends Seeder
         App\Category::create(['name' => "homme"]);
         App\Category::create(['name' => "femme"]);
 
-        factory(App\Product::class, 80)->create()->each(function($product) {
+        factory(App\Product::class, 80)->create()->each(function ($product) {
             // Get a random category
-            $category = App\Category::find(rand(1,2));
-            
+            $category = App\Category::find(rand(1, 2));
+
             // Associate this product to the category got
             $product->category()->associate($category);
 
@@ -28,7 +28,7 @@ class ProductTableSeeder extends Seeder
             } else {
                 $files = Storage::allFiles('femmes');
             }
-            
+
             $fileIndex = array_rand($files);
             $file = $files[$fileIndex];
             $filename = basename($file);

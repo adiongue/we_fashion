@@ -28,15 +28,15 @@ class Product extends Model
      */
     public function setCategoryIdAttribute($value)
     {
-        if($value == 0){
+        if ($value == 0) {
             $this->attributes['category_id'] = null;
-        }else{
+        } else {
             $this->attributes['category_id'] = $value;
         }
     }
 
     /**
-     * A product has one category. 
+     * A product has one category.
      * This function makes this association
      * @return BelongsTo
      */
@@ -49,7 +49,8 @@ class Product extends Model
      * A product has on picture, this function makes this association
      * @return BelongsTo
      */
-    public function picture() {
+    public function picture()
+    {
         return $this->hasOne(Picture::class);
     }
 }

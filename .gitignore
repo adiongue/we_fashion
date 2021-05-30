@@ -25,3 +25,10 @@ public/hot
 public_html/storage
 public_html/hot
 .phpunit.result.cache
+
+package-lock.json
+public/mix-manifest.json
+public/fonts/
+storage/
+
+composer.lock
