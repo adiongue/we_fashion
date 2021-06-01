@@ -1,6 +1,8 @@
 # Wefashion
 This repo contains a laravel project which allows to commerce online.
 
+You can find the database model [here](database_model.PNG)
+
 # Requires 
 
     php v7.0 to v7 .4
